@@ -15,6 +15,5 @@
   - Holds and updates catalog (Data structure -> HashMap) 
   - Output an invoice after transaction by customer  
   - Outputs to transaction.txt to keep list of all transactions 
-
-4. POST 
-  - UI 
+  
+4. POST - UI 
