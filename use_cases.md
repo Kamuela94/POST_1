@@ -1,5 +1,9 @@
 # USE CASES
 
+USE CASE DIAGRAM: https://drive.google.com/file/d/0B1kWV1hOcvR2OWlmbDZyOUhsTVU/view?usp=sharing
+
+#### Go to www.draw.io to open file
+
 1. Manager  
   - Open store 
   - Close store  
