@@ -1,0 +1,6 @@
+PHPH    Bananas         0.59
+DBDB    Apples          0.25
+MRMR    MarshMallows    12.22
+DRDR    Soda     1.0
+DRDR    Soda     1.0
+DRDR    Soda     1.0
