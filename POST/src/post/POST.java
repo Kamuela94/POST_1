@@ -21,10 +21,10 @@ public class POST {
         cust = new Customer("Customer");
         store = new Store();
         man = new Manager(store);
-        
+        isRunning = true;
     }
     
-    public void CustomerUI(){
+    public void CustomerUI() throws IOException{
         Scanner sc = new Scanner(System.in);
         int temp;
         while(isRunning){
@@ -52,23 +52,91 @@ public class POST {
         }
     }
     public void addItem(){
-    
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please Enter your product code: ");
+        String code = sc.next();
+        System.out.print("Please Enter the quantity: ");
+        int quant = sc.nextInt();
+        
+        cust.addItem(store, code, quant);
+        System.out.println("Item added.");
     }
     
     public void removeItem(){
-    
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter the code of the item you would like to remove: ");
+        String code = sc.next();
+        cust.removeItem(code);
+        System.out.println("Item removed.");
     }
     
-    public void makePayment(){
-    
-    }
-    
-    public void ManagerUI(){
+    public void makePayment() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Cash or Credit? ");
+        String payType = sc.next();
+        String invoice = cust.makePayment(store, payType);
+        System.out.println(invoice);
         
     }
     
-    public void viewCatalog(){
+    public void ManagerUI() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        int temp;
+        while(isRunning){
+            System.out.println("Please select an option: \n "
+                    + "1) Add an item \n 2) Remove item \n 3) Exit");
+            temp = sc.nextInt();
+            
+            switch(temp){
+                case 1:
+                    manageAdd();
+                    break;
+                case 2:
+                    manageRemove();
+                    break;
+                case 3:
+                    isRunning = false;
+                    break;
+            }
+        }
+    }
     
+    public void viewCatalog() throws IOException{
+        ArrayList catalog = cust.getCatalog(store);
+        String[] temp;
+        String temp_0;
+        String delims = "[ ]+";
+        System.out.println("Item            Price");
+        for (Object item : catalog) {
+            temp_0 = item.toString();
+            temp = temp_0.split(delims);
+            
+            
+            System.out.println(temp[1] + "           " + temp[2]);
+        }
+    }
+    
+    public void manageRemove(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter the code of the item to be removed: ");
+        String code = sc.next();
+        
+        man.removeItem(code);
+        System.out.println("Item removed.");
+        
+    }
+    
+    public void manageAdd() throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter the code for the new item: ");
+        String code = sc.next();
+        System.out.print("Please enter the description of the item: ");
+        String description = sc.next();
+        System.out.println("Please enter the price of the item: ");
+        Float price = sc.nextFloat();
+        
+        man.addItem(code, description, price);
+        System.out.println("Item added");
     }
     /**
      * @param args the command line arguments
