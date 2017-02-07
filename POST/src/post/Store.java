@@ -66,7 +66,7 @@ public class Store {
         return isOpen;
     }
 
-    public void updateTransaction(HashMap cart, String payType, String name) throws FileNotFoundException, IOException {
+    public String updateTransaction(HashMap cart, String payType, String name) throws FileNotFoundException, IOException {
 
         FileWriter fw = new FileWriter("transaction.txt", true);
         
@@ -94,7 +94,7 @@ public class Store {
         bw.write(fileInsert);
         bw.flush();
         
-        
+        return fileInsert;
 
     }
     
