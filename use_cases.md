@@ -1,6 +1,7 @@
 # USE CASES
 
 USE CASE DIAGRAM: https://drive.google.com/file/d/0B1kWV1hOcvR2OWlmbDZyOUhsTVU/view?usp=sharing
+SEQUENCE DIAGRAM FOR USE CASES: https://drive.google.com/open?id=0B1kWV1hOcvR2OWlmbDZyOUhsTVU
 
 #### Go to www.draw.io to open file
 
