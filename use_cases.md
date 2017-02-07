@@ -2,6 +2,7 @@
 
 USE CASE DIAGRAM: https://drive.google.com/file/d/0B1kWV1hOcvR2OWlmbDZyOUhsTVU/view?usp=sharing
 SEQUENCE DIAGRAM FOR USE CASES: https://drive.google.com/open?id=0B1kWV1hOcvR2OWlmbDZyOUhsTVU
+CLASS DIAGRAM: https://drive.google.com/file/d/0B7_RGl5LAUiuOU1MS3hmNlBMVGM/view?usp=sharing
 
 #### Go to www.draw.io to open file
 
