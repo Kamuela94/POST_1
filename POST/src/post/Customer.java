@@ -31,17 +31,22 @@ public class Customer {
         return cart;
     }
     
-    public void addItem(Store store,String code, int number){
+    public boolean addItem(Store store,String code, int number){
         if(store.isInInventory(code)){
             cart.put(code, number);
+            return true;
         }
+        
+        return false;
     
     }
     
-    public void removeItem(String code){
+    public boolean removeItem(String code){
         if(cart.containsKey(code)){
             cart.remove(code);
+            return true;
         }
+        return false;
     }
     
     public String makePayment(Store store, String payType) throws FileNotFoundException, IOException{

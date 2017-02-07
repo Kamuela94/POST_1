@@ -48,6 +48,9 @@ public class POST {
                 case 5:
                     isRunning = false;
                     break;
+                default:
+                    System.out.println("Sorry, that is not a valid option. Please try again.");
+                    break;
             }
         }
     }
@@ -140,18 +143,29 @@ public class POST {
     }
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         POST post = new POST();
-        System.out.print("Welcome! Are you: \n 1) Customer \n 2) Manager \n");
-        int personType = sc.nextInt();
-        
-        if(personType == 1){
-            post.CustomerUI();
-        }else{
-            post.ManagerUI();
-        
+        int personType;
+        boolean startUI = true;
+        while(startUI){
+            System.out.print("Welcome! Are you: \n 1) Customer \n 2) Manager \n");
+            personType = sc.nextInt();
+            switch (personType) {
+                case 1:
+                    post.CustomerUI();
+                    startUI = false;
+                    break;
+                case 2:
+                    post.ManagerUI();
+                    startUI = false;
+                    break;
+                default:
+                    System.out.println("Sorry, that is not a valid option. Please try again.");
+                    break;
+            }
         }
     }
     
