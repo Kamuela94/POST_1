@@ -1,7 +1,10 @@
-PHPH    Bananas         0.59
-DBDB    Apples          0.25
-MRMR    MarshMallows    12.22
-DRDR    Soda     1.0
-DRDR    Soda     1.0
-DRDR    Soda     1.0
-TYTY    Grapes     2.0
+PHPH     Bananas                  0.59
+DBDB     Apples                   0.25
+MRMR     MarshMallows             12.22
+DRDR     Soda                     1.01
+DRDR     Soda                     1.01
+DRDR     Soda                     1.01
+TYTY     Grapes                   2.05
+DRDR     Soda                     1.01
+DRDR     Soda                     1.03
+BTBT     Grapefruit               5.02
