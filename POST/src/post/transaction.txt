@@ -38,3 +38,66 @@ PHPH      6
 DRDR      4
 CREDIT98765
 
+Customer
+PHPH      5
+CASH      2.95
+
+Customer
+PHPH      5
+DRDR      3
+CASH      5.98
+
+Customer
+PHPH      5
+DRDR      3
+CASH      5.98
+
+Customer
+PHPH      23
+DRDR      5
+CASH      18.619999
+
+Customer
+DRDR      2
+TYTY      3
+CASH      8.17
+
+Customer
+PHPH      5
+DRDR      3
+CREDIT      12345
+
+Customer
+PHPH      5
+DRDR      3
+CASH      5.98
+
+Customer
+PHPH      6
+DRDR      3
+CASH      6.57
+
+Customer
+CREDIT      12345
+
+Customer
+PHPH      5
+DRDR      6
+CREDIT      12345
+
+Customer
+CREDIT      12345
+
+Customer
+CREDIT      12345
+
+Customer
+PHPH      3
+DRDR      5
+CREDIT      12345
+
+Customer
+PHPH      3
+DRDR      5
+CASH      6.82
+

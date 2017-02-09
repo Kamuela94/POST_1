@@ -7,12 +7,12 @@ package post;
 
 import java.io.IOException;
 import java.util.*;
+import java.text.*;
 
 /**
  *
  * @author kamuela94
  */
-
 public class POST {
 
     private Customer cust;
@@ -32,7 +32,7 @@ public class POST {
         int temp;
         while (isRunning) {
             System.out.println("Please select an option: \n 1) View Catalog \n 2) Add Item"
-                    + "\n 3) Remove Item \n 4) Make Payment \n 5) Exit");
+                    + "\n 3) Remove Item \n 4) Make Payment \n 5) Show Cart \n 6) Exit");
             temp = sc.nextInt();
 
             switch (temp) {
@@ -49,6 +49,9 @@ public class POST {
                     makePayment();
                     break;
                 case 5:
+                    showCart();
+                    break;
+                case 6:
                     isRunning = false;
                     break;
                 default:
@@ -74,7 +77,7 @@ public class POST {
 
     public void removeItem() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Please enter the code of the item you would like to remove: ");
+        System.out.print("Please enter the code of the item you want to add: ");
         String code = sc.next();
         if (cust.removeItem(code)) {
             System.out.println("Item removed.");
@@ -87,18 +90,20 @@ public class POST {
         Scanner sc = new Scanner(System.in);
         System.out.print("Cash or Credit? ");
         String payType = sc.next();
-        int tender = 0;
+
+        float tender = 0;
+        int cardNum = 0;
         boolean temp = true;
         while (temp) {
             switch (payType) {
                 case "Cash":
                     System.out.println("Please enter your tender");
-                    tender = sc.nextInt();
+                    tender = sc.nextFloat();
                     temp = false;
                     break;
                 case "Credit":
                     System.out.println("Please enter your 5 digit card number.");
-                    tender = sc.nextInt();
+                    cardNum = sc.nextInt();
                     temp = false;
                     break;
                 default:
@@ -106,11 +111,44 @@ public class POST {
                     break;
             }
         }
-        String invoice = cust.makePayment(store, payType, tender);
-        System.out.println(invoice);
-
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+        String[][] invoice = cust.makePayment(store, payType, cardNum);
+        System.out.printf("%-10s", cust.getName());
+        System.out.print(ft.format(dNow)+"\n");
+        
+        int index = -1;
+        
+        for (String[] code : invoice) {
+            System.out.printf("%-10s%-5s%-8s%s\n", code[0], code[1], code[2], code[3]);
+            index++;
+        }
+        System.out.println("------");
+        System.out.printf("%-10s%s\n","Total", invoice[index][3]);
+        System.out.print("Amount Tendered: ");
+        float result = tender - Float.parseFloat(invoice[index][3]);
+        if(payType.equals("Cash")){
+            System.out.print(tender + "\nAmount Returned: " + result + "\n");
+        }else if(payType.equals("Credit")){
+            System.out.print("Credit Card " + cardNum + "\nAmount Returned: 0.00\n");
+        }
+        
     }
+    
+    public void showCart(){
+        HashMap cart = cust.getCart();
+        
+        System.out.printf("%-5s%s\n", "Item", "Quantity");      
+        Iterator it = cart.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
 
+            System.out.printf("%-5s%s\n", pair.getKey(), pair.getValue());
+            
+            
+        }
+    }
+    
     public void ManagerUI() throws IOException {
         Scanner sc = new Scanner(System.in);
         int temp;
@@ -138,20 +176,15 @@ public class POST {
         String[] temp;
         String temp_0;
         String delims = "[ ]+";
-        System.out.println("Code           Item                     Price");
+        String code = "Code";
+        String tem = "Item";
+        String price = "Price";
+        System.out.printf("%-10s%-25s%s\n", code, tem, price);
         for (Object item : catalog) {
             temp_0 = item.toString();
             temp = temp_0.split(delims);
-            String output = temp[0] + "           " + temp[1];
-            int spaceLength = 25 - temp[1].length();
-            for(int i = 0; i < spaceLength; i++){
-                output += " ";
-            }
-            
-            output += temp[2];
-            
-            
-            System.out.println(output);
+
+            System.out.printf("%-10s%-25s%s\n", temp[0], temp[1], temp[2]);
         }
     }
 
@@ -159,10 +192,8 @@ public class POST {
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the code of the item to be removed: ");
         String code = sc.next();
-
         man.removeItem(code);
         System.out.println("Item removed.");
-
     }
 
     public void manageAdd() throws IOException {

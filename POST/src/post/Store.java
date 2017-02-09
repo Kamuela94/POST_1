@@ -30,7 +30,7 @@ public class Store {
     public Store() throws IOException {
         isOpen = true;
         try {
-            in = new FileInputStream("catalog.txt");
+            in = new FileInputStream("products.txt");
         } catch (Exception e) {
             System.out.println("File not found:" + e);
         }
@@ -69,25 +69,28 @@ public class Store {
         return isOpen;
     }
 
-    public String updateTransaction(HashMap cart, String payType, String name, int tender) throws FileNotFoundException, IOException {
+    public String[][] updateTransaction(HashMap cart, String payType, String name, int cardNum) throws FileNotFoundException, IOException {
 
         FileWriter fw = new FileWriter("transaction.txt", true);
         
         BufferedWriter bw = new BufferedWriter(fw);
         float price = 0;
-        float itemPrice;
         String fileInsert = name + "\n";
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-        Date dateobj = new Date();
-        String invoice = this.name +"\n\n" + name + "      " + df.format(dateobj) + "\n";
-
+        int index = 0;
+        String[][] receipt;
+        receipt = new String[cart.size()][4];
+        
         Iterator it = cart.entrySet().iterator();
         while (it.hasNext()) {
-            itemPrice = 0;
             Map.Entry pair = (Map.Entry) it.next();
             fileInsert += pair.getKey();
             price += (((double)(inventory.get(pair.getKey()))) * (int)pair.getValue());
-            invoice += pair.getKey() + "      " + pair.getValue() + "      " + inventory.get(pair.getKey()) + "      " + price + "\n";
+            receipt[index][0] = (String)pair.getKey();
+            int value = (int)pair.getValue();
+            receipt[index][1] = Integer.toString(value);
+            receipt[index][2] = Double.toString((double)(inventory.get(pair.getKey())));
+            receipt[index][3] = Float.toString(price);
+            
             if((int)pair.getValue() == 1){
                 fileInsert += "\n";
             }else{
@@ -96,25 +99,24 @@ public class Store {
                 fileInsert += "      " + temp_0 + "\n";
             }
             it.remove();
+            index++;
         }
         
-        invoice += "------\n" + "total: " + price + "\n";
         
         if(payType.equals("Cash")){
             fileInsert += payType.toUpperCase() + "      " + price;
-            invoice += "Amount Tendered: " + price + "\n";
             
         }else{
-            fileInsert += payType.toUpperCase() + "      " + tender;
-            invoice += "PAID WITH CARD " + tender + "\n";
+            fileInsert += payType.toUpperCase() + "      " + cardNum;
         }
+        
         fileInsert += "\n\n";
         
         bw.write(fileInsert);
         bw.flush();
         
         
-        return invoice;
+        return receipt;
 
     }
     
