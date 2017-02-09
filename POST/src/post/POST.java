@@ -27,12 +27,17 @@ public class POST {
         isRunning = true;
     }
 
-    public void CustomerUI() throws IOException {
+    public boolean CustomerUI() throws IOException {
+        if(!store.isPostOn()){
+            System.out.println("I'm sorry, the store is not open at the moment, please wait for a manager to open the store.");
+            return true;
+        }else{
         Scanner sc = new Scanner(System.in);
         int temp;
         while (isRunning) {
             System.out.println("Please select an option: \n 1) View Catalog \n 2) Add Item"
-                    + "\n 3) Remove Item \n 4) Make Payment \n 5) Show Cart \n 6) Exit");
+                    + "\n 3) Remove Item \n 4) Make Payment \n 5) Show Cart \n 6) Exit Program"
+                    + "\n 7) Quit User");
             temp = sc.nextInt();
 
             switch (temp) {
@@ -54,10 +59,14 @@ public class POST {
                 case 6:
                     isRunning = false;
                     break;
+                case 7:
+                    return true;
                 default:
                     System.out.println("Sorry, that is not a valid option. Please try again.");
                     break;
             }
+        }
+        return false;
         }
     }
 
@@ -84,9 +93,11 @@ public class POST {
         } else {
             System.out.println("Item can not be removed.");
         }
+        
     }
 
     public void makePayment() throws IOException {
+
         Scanner sc = new Scanner(System.in);
         System.out.print("Cash or Credit? ");
         String payType = sc.next();
@@ -133,6 +144,7 @@ public class POST {
             System.out.print("Credit Card " + cardNum + "\nAmount Returned: 0.00\n");
         }
         
+        
     }
     
     public void showCart(){
@@ -149,26 +161,37 @@ public class POST {
         }
     }
     
-    public void ManagerUI() throws IOException {
+    public boolean ManagerUI() throws IOException {
         Scanner sc = new Scanner(System.in);
         int temp;
         while (isRunning) {
             System.out.println("Please select an option: \n "
-                    + "1) Add an item \n 2) Remove item \n 3) Exit");
+                    + "1) Open Store \n 2) Close Store \n 3) Add an item \n 4) Remove item \n 5) Exit Program \n 6) Quit User");
             temp = sc.nextInt();
 
             switch (temp) {
                 case 1:
-                    manageAdd();
+                    store.openStore();
                     break;
                 case 2:
-                    manageRemove();
+                    store.closeStore();
                     break;
                 case 3:
+                    manageAdd();
+                    break;
+                case 4:
+                    manageRemove();
+                    break;
+                case 5:
                     isRunning = false;
                     break;
+                case 6:
+                    return true;
+                default:
+                    System.out.println("I'm sorry, that is not a valid option");
             }
         }
+        return false;
     }
 
     public void viewCatalog() throws IOException {
@@ -223,12 +246,10 @@ public class POST {
             personType = sc.nextInt();
             switch (personType) {
                 case 1:
-                    post.CustomerUI();
-                    startUI = false;
+                    startUI = post.CustomerUI();
                     break;
                 case 2:
-                    post.ManagerUI();
-                    startUI = false;
+                    startUI = post.ManagerUI();
                     break;
                 default:
                     System.out.println("Sorry, that is not a valid option. Please try again.");
