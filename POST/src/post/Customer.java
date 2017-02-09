@@ -51,7 +51,6 @@ public class Customer {
     
     public String[][] makePayment(Store store, String payType, int tender) throws FileNotFoundException, IOException{
         String[][] temp = store.updateTransaction(cart, payType, name, tender);
-        cart.clear();
         return temp;
     }
     

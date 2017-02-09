@@ -26,7 +26,7 @@ public class Manager {
     }
     
     public void removeItem(String code){
-    
+        store.removeItem(code);
     }
     
     public void openStore(){
