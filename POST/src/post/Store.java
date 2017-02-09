@@ -142,14 +142,18 @@ public class Store {
         FileWriter fw = new FileWriter("catalog.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.newLine();
+        String temp = code + "     " + description;
         bw.write(code + "     " + description);
         int spaceNum = 19 - description.length();
         for(int i = 0; i < spaceNum; i++){
+            temp+= " ";
             bw.write(" ");
         }
+        temp += "      " + price;
         bw.write("      " + price);
         bw.flush();
         
+        catalog.add(temp);
         inventory.put(code, price);
         
     }
