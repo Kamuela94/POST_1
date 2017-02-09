@@ -138,12 +138,20 @@ public class POST {
         String[] temp;
         String temp_0;
         String delims = "[ ]+";
-        System.out.println("Item            Price");
+        System.out.println("Code           Item                     Price");
         for (Object item : catalog) {
             temp_0 = item.toString();
             temp = temp_0.split(delims);
-
-            System.out.println(temp[1] + "           " + temp[2]);
+            String output = temp[0] + "           " + temp[1];
+            int spaceLength = 25 - temp[1].length();
+            for(int i = 0; i < spaceLength; i++){
+                output += " ";
+            }
+            
+            output += temp[2];
+            
+            
+            System.out.println(output);
         }
     }
 
