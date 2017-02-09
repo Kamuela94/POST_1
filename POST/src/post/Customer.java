@@ -32,8 +32,8 @@ public class Customer {
     }
     
     public boolean addItem(Store store,String code, int number){
-        if(store.isInInventory(code)){
-            cart.put(code, number);
+        if(store.isInInventory(code.toUpperCase())){
+            cart.put(code.toUpperCase(), number);
             return true;
         }
         
@@ -42,7 +42,7 @@ public class Customer {
     }
     
     public boolean removeItem(String code){
-        if(cart.containsKey(code)){
+        if(cart.containsKey(code.toUpperCase())){
             cart.remove(code);
             return true;
         }
