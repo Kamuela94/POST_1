@@ -200,7 +200,7 @@ public class POST {
 
     public void showCart() {
         HashMap cart = cust.getCart();
-
+        System.out.print(cust.getName());
         System.out.printf("%-5s%s\n", "Item", "Quantity");
         Iterator it = cart.entrySet().iterator();
         while (it.hasNext()) {
