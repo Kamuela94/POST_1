@@ -28,45 +28,47 @@ public class POST {
     }
 
     public boolean CustomerUI() throws IOException {
-        if(!store.isPostOn()){
+        if (!store.isPostOn()) {
             System.out.println("I'm sorry, the store is not open at the moment, please wait for a manager to open the store.");
+            System.out.println("Here is our catalog if you would like to browse while you wait.");
+            viewCatalog();
             return true;
-        }else{
-        Scanner sc = new Scanner(System.in);
-        int temp;
-        while (isRunning) {
-            System.out.println("Please select an option: \n 1) View Catalog \n 2) Add Item"
-                    + "\n 3) Remove Item \n 4) Make Payment \n 5) Show Cart \n 6) Exit Program"
-                    + "\n 7) Quit User");
-            temp = sc.nextInt();
+        } else {
+            Scanner sc = new Scanner(System.in);
+            int temp;
+            while (isRunning) {
+                System.out.println("Please select an option: \n 1) View Catalog \n 2) Add Item"
+                        + "\n 3) Remove Item \n 4) Make Payment \n 5) Show Cart \n 6) Exit Program"
+                        + "\n 7) Quit User");
+                temp = sc.nextInt();
 
-            switch (temp) {
-                case 1:
-                    viewCatalog();
-                    break;
-                case 2:
-                    addItem();
-                    break;
-                case 3:
-                    removeItem();
-                    break;
-                case 4:
-                    makePayment();
-                    break;
-                case 5:
-                    showCart();
-                    break;
-                case 6:
-                    isRunning = false;
-                    break;
-                case 7:
-                    return true;
-                default:
-                    System.out.println("Sorry, that is not a valid option. Please try again.");
-                    break;
+                switch (temp) {
+                    case 1:
+                        viewCatalog();
+                        break;
+                    case 2:
+                        addItem();
+                        break;
+                    case 3:
+                        removeItem();
+                        break;
+                    case 4:
+                        makePayment();
+                        break;
+                    case 5:
+                        showCart();
+                        break;
+                    case 6:
+                        isRunning = false;
+                        break;
+                    case 7:
+                        return true;
+                    default:
+                        System.out.println("Sorry, that is not a valid option. Please try again.");
+                        break;
+                }
             }
-        }
-        return false;
+            return false;
         }
     }
 
@@ -93,7 +95,7 @@ public class POST {
         } else {
             System.out.println("Item can not be removed.");
         }
-        
+
     }
 
     public void makePayment() throws IOException {
@@ -126,41 +128,39 @@ public class POST {
         SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
         String[][] invoice = cust.makePayment(store, payType, cardNum);
         System.out.printf("%-10s", cust.getName());
-        System.out.print(ft.format(dNow)+"\n");
-        
+        System.out.print(ft.format(dNow) + "\n");
+
         int index = -1;
-        
+
         for (String[] code : invoice) {
             System.out.printf("%-10s%-5s%-8s%s\n", code[0], code[1], code[2], code[3]);
             index++;
         }
         System.out.println("------");
-        System.out.printf("%-10s%s\n","Total", invoice[index][3]);
+        System.out.printf("%-10s%s\n", "Total", invoice[index][3]);
         System.out.print("Amount Tendered: ");
         float result = tender - Float.parseFloat(invoice[index][3]);
-        if(payType.equals("Cash")){
+        if (payType.equals("Cash")) {
             System.out.print(tender + "\nAmount Returned: " + result + "\n");
-        }else if(payType.equals("Credit")){
+        } else if (payType.equals("Credit")) {
             System.out.print("Credit Card " + cardNum + "\nAmount Returned: 0.00\n");
         }
-        
-        
+
     }
-    
-    public void showCart(){
+
+    public void showCart() {
         HashMap cart = cust.getCart();
-        
-        System.out.printf("%-5s%s\n", "Item", "Quantity");      
+
+        System.out.printf("%-5s%s\n", "Item", "Quantity");
         Iterator it = cart.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
 
             System.out.printf("%-5s%s\n", pair.getKey(), pair.getValue());
-            
-            
+
         }
     }
-    
+
     public boolean ManagerUI() throws IOException {
         Scanner sc = new Scanner(System.in);
         int temp;
