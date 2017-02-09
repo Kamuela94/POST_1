@@ -21,14 +21,14 @@ public class Store {
      * from the file.
      */
     private HashMap inventory = new HashMap();
-    private boolean isOpen;
+    private boolean isPostOn;
     private FileInputStream in = null;
     private String[] tokens;
     private ArrayList catalog = new ArrayList();
     private String name = "Store";
 
     public Store() throws IOException {
-        isOpen = true;
+        isPostOn = false;
         try {
             in = new FileInputStream("products.txt");
         } catch (Exception e) {
@@ -47,11 +47,11 @@ public class Store {
     }
     
     public void openStore(){
-        isOpen = true;
+        isPostOn = true;
     }
     
     public void closeStore(){
-        isOpen = false;
+        isPostOn = false;
     }
 
     public ArrayList searchCatalog() throws IOException {
@@ -65,8 +65,8 @@ public class Store {
         return false;
     }
 
-    public boolean isOpen() {
-        return isOpen;
+    public boolean isPostOn() {
+        return isPostOn;
     }
 
     public String[][] updateTransaction(HashMap cart, String payType, String name, int cardNum) throws FileNotFoundException, IOException {
@@ -117,7 +117,7 @@ public class Store {
         
         
         return receipt;
-
+        
     }
     
     public void addItem(String code, String description, float price) throws IOException{
@@ -138,7 +138,7 @@ public class Store {
 
     public static void main(String args[]) throws IOException {
         Store store = new Store();
-        if (store.isOpen()) {
+        if (store.isPostOn()) {
             System.out.println("isOpen test passed");
         }
         store.addItem("BTBT", "Grapefruit" , new Float(5.00));
