@@ -50,8 +50,9 @@ public class Customer {
     }
     
     public String makePayment(Store store, String payType, int tender) throws FileNotFoundException, IOException{
-        return store.updateTransaction(cart, payType, name, tender);
-        
+        String temp = store.updateTransaction(cart, payType, name, tender);
+        cart.clear();
+        return temp;
     }
 
     public static void main(String args[]) throws IOException{
