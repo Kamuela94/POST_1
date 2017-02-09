@@ -14,7 +14,9 @@ import java.text.*;
  * @author kamuela94
  */
 public class POST {
-
+    /**
+     * When POST is create, classes and variables are initialized.
+     */
     private Customer cust;
     private Manager man;
     private Store store;
@@ -28,20 +30,33 @@ public class POST {
     }
 
     public boolean CustomerUI() throws IOException {
+        /**
+         * If the Store is closed, the customer cannot enter the store and the catalog is shown.
+         * isPostOn() checks to see if the store is open.
+         */
         if (!store.isPostOn()) {
             System.out.println("I'm sorry, the store is not open at the moment, please wait for a manager to open the store.");
             System.out.println("Here is our catalog if you would like to browse while you wait.");
             viewCatalog();
             return true;
         } else {
+        /**
+         * If the Store is open, the user is prompted to make a choice.
+         */
             Scanner sc = new Scanner(System.in);
             int temp;
+        /**
+         * The loop runs while the User does not select Exit Program(6) or Quit User(7)
+         */
             while (isRunning) {
                 System.out.println("Please select an option: \n 1) View Catalog \n 2) Add Item"
                         + "\n 3) Remove Item \n 4) Make Payment \n 5) Show Cart \n 6) Exit Program"
                         + "\n 7) Quit User");
                 temp = sc.nextInt();
 
+                /**
+                 * After the user chooses, a Method is called based on their choice.
+                 */
                 switch (temp) {
                     case 1:
                         viewCatalog();
@@ -72,6 +87,10 @@ public class POST {
         }
     }
 
+    /**
+     * addItem() asks the user for a code and quantity, then adds it to the Customers cart if it was a valid
+     * code, or rejects it if the code was not valid.
+     */
     public void addItem() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Please Enter your product code: ");
@@ -86,6 +105,10 @@ public class POST {
         }
     }
 
+    /**
+     * removeItem() removes an item from the Customers cart if the code exists, or rejects if the given 
+     * code is not in the cart.
+     */
     public void removeItem() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the code of the item you want to add: ");
@@ -98,6 +121,11 @@ public class POST {
 
     }
 
+    /**
+     * makePayment() takes the items in the Customers cart, adds them up and then
+     * prints out an invoice for the transaction.
+     * @throws IOException 
+     */
     public void makePayment() throws IOException {
 
         Scanner sc = new Scanner(System.in);
@@ -107,6 +135,9 @@ public class POST {
         float tender = 0;
         int cardNum = 0;
         boolean temp = true;
+        /**
+         * Loop runs while the Customer does not choose Cash or Credit.
+         */
         while (temp) {
             switch (payType) {
                 case "Cash":
@@ -124,21 +155,40 @@ public class POST {
                     break;
             }
         }
+        /**
+         * Gets the current date from the computer for the invoice
+         */
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+        
+        /**
+         * String is a 2D array that contains x amount of rows and 4 columns. 
+         * x is equal to the amount of items in the cart.
+         */
         String[][] invoice = cust.makePayment(store, payType, cardNum);
         System.out.printf("%-10s", cust.getName());
         System.out.print(ft.format(dNow) + "\n");
 
+        //index will tell me the number of rows in invoice
         int index = -1;
-
+        
+        
+        /**
+         * System prints out the code, quantity, price and subtotal of each item. 
+         */
         for (String[] code : invoice) {
             System.out.printf("%-10s%-5s%-8s%s\n", code[0], code[1], code[2], code[3]);
             index++;
         }
+        
+        /**
+         * total is then printed out
+         */
         System.out.println("------");
         System.out.printf("%-10s%s\n", "Total", invoice[index][3]);
         System.out.print("Amount Tendered: ");
+        
+        //Note that result isn't used in the case that a credit card is used
         float result = tender - Float.parseFloat(invoice[index][3]);
         if (payType.equals("Cash")) {
             System.out.print(tender + "\nAmount Returned: " + result + "\n");
@@ -198,11 +248,13 @@ public class POST {
         ArrayList catalog = cust.getCatalog(store);
         String[] temp;
         String temp_0;
+        //regex expression delims says that the items are divided based on white space.
         String delims = "[ ]+";
         String code = "Code";
         String tem = "Item";
         String price = "Price";
         System.out.printf("%-10s%-25s%s\n", code, tem, price);
+        //Each item in catalog is printed
         for (Object item : catalog) {
             temp_0 = item.toString();
             temp = temp_0.split(delims);
@@ -211,6 +263,9 @@ public class POST {
         }
     }
 
+    /**
+     * Item is removed from the catalog
+     */
     public void manageRemove() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the code of the item to be removed: ");
@@ -219,6 +274,10 @@ public class POST {
         System.out.println("Item removed.");
     }
 
+    /**
+     * Item is added to the catalog.
+     * @throws IOException 
+     */
     public void manageAdd() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the code for the new item: ");
