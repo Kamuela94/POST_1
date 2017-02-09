@@ -7,6 +7,8 @@ package post;
 
 import java.io.*;
 import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Store {
     private FileInputStream in = null;
     private String[] tokens;
     private ArrayList catalog = new ArrayList();
+    private String name = "Store";
 
     public Store() throws IOException {
         isOpen = true;
@@ -66,35 +69,52 @@ public class Store {
         return isOpen;
     }
 
-    public String updateTransaction(HashMap cart, String payType, String name) throws FileNotFoundException, IOException {
+    public String updateTransaction(HashMap cart, String payType, String name, int tender) throws FileNotFoundException, IOException {
 
         FileWriter fw = new FileWriter("transaction.txt", true);
         
         BufferedWriter bw = new BufferedWriter(fw);
-        
+        float price = 0;
+        float itemPrice;
         String fileInsert = name + "\n";
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        Date dateobj = new Date();
+        String invoice = this.name +"\n\n" + name + "      " + df.format(dateobj) + "\n";
 
         Iterator it = cart.entrySet().iterator();
         while (it.hasNext()) {
+            itemPrice = 0;
             Map.Entry pair = (Map.Entry) it.next();
             fileInsert += pair.getKey();
+            price += (((double)(inventory.get(pair.getKey()))) * (int)pair.getValue());
+            invoice += pair.getKey() + "      " + pair.getValue() + "      " + inventory.get(pair.getKey()) + "      " + price + "\n";
             if((int)pair.getValue() == 1){
                 fileInsert += "\n";
             }else{
                 Integer temp = (int)pair.getValue();
                 String temp_0 = temp.toString();
-                fileInsert += "     " + temp_0 + "\n";
+                fileInsert += "      " + temp_0 + "\n";
             }
-            it.remove(); // avoids a ConcurrentModificationException
+            it.remove();
         }
-        fileInsert += payType.toUpperCase();
         
+        invoice += "------\n" + "total: " + price + "\n";
+        
+        if(payType.equals("Cash")){
+            fileInsert += payType.toUpperCase() + "      " + price;
+            invoice += "Amount Tendered: " + price + "\n";
+            
+        }else{
+            fileInsert += payType.toUpperCase() + "      " + tender;
+            invoice += "PAID WITH CARD " + tender + "\n";
+        }
         fileInsert += "\n\n";
         
         bw.write(fileInsert);
         bw.flush();
         
-        return fileInsert;
+        
+        return invoice;
 
     }
     
@@ -102,7 +122,12 @@ public class Store {
         FileWriter fw = new FileWriter("catalog.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.newLine();
-        bw.write(code + "    " + description + "     " + price);
+        bw.write(code + "     " + description);
+        int spaceNum = 19 - description.length();
+        for(int i = 0; i < spaceNum; i++){
+            bw.write(" ");
+        }
+        bw.write("      " + price);
         bw.flush();
         
         inventory.put(code, price);
@@ -114,7 +139,7 @@ public class Store {
         if (store.isOpen()) {
             System.out.println("isOpen test passed");
         }
-        store.addItem("DRDR", "Soda" , new Float(1.00));
+        store.addItem("BTBT", "Grapefruit" , new Float(5.00));
         ArrayList test = store.searchCatalog();
         System.out.println(test);        
     }

@@ -15,3 +15,26 @@ DBDB     3
 PHPH     5
 CASH
 
+Customer
+CASH
+
+Customer
+PHPH      3
+DRDR      5
+CREDIT12345
+
+Customer
+PHPH      3
+DRDR      5
+CREDIT12345
+
+Customer
+PHPH      5
+DRDR      6
+CASH8.95
+
+Customer
+PHPH      6
+DRDR      4
+CREDIT98765
+

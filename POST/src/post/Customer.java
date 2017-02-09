@@ -49,8 +49,8 @@ public class Customer {
         return false;
     }
     
-    public String makePayment(Store store, String payType) throws FileNotFoundException, IOException{
-        return store.updateTransaction(cart, payType, name);
+    public String makePayment(Store store, String payType, int tender) throws FileNotFoundException, IOException{
+        return store.updateTransaction(cart, payType, name, tender);
         
     }
 
@@ -58,6 +58,6 @@ public class Customer {
         Customer cust = new Customer("Customer");
         Store store = new Store();
         cust.addItem(store, "PHPH", 3);
-        cust.makePayment(store, "Cash");
+        cust.makePayment(store, "Cash", 20);
     }
 }
