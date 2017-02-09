@@ -49,12 +49,14 @@ public class Customer {
         return false;
     }
     
-    public String makePayment(Store store, String payType, int tender) throws FileNotFoundException, IOException{
-        String temp = store.updateTransaction(cart, payType, name, tender);
+    public String[][] makePayment(Store store, String payType, int tender) throws FileNotFoundException, IOException{
+        String[][] temp = store.updateTransaction(cart, payType, name, tender);
         cart.clear();
         return temp;
     }
-
+    
+    public String getName(){return name;}
+    
     public static void main(String args[]) throws IOException{
         Customer cust = new Customer("Customer");
         Store store = new Store();
